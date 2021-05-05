@@ -40,8 +40,8 @@ class GetJsonData:
         json_response_tasks = response.json()
         return json_response_tasks
 
-    def get_time(self):
-        """GET /workspaces/{workspaceId}/user/{userId}/time-entries"""
+    def get_time_entries(self):
+        """process request: GET /workspaces/{workspaceId}/user/{userId}/time-entries"""
         api_url_time = '/workspaces/{workspaceId}/user/{userId}/time-entries'.format(workspaceId=self.workspace_id,
                                                                                      userId=self.USER_ID)
         return requests.get(self.URL + api_url_time, headers=self.headers).json()
@@ -77,6 +77,11 @@ if __name__ == '__main__':
     my_user = GetJsonData(api_key)
     # print(my_user.json_response_base)
     # print(my_user.get_json_project_response())
+    # print(my_user.get_json_task_response())
+    # print(my_user.get_time())
+    u = GetInfo(api_key)
+    print(u.get_tasks_name())
+    print(u.get_time_entries())
     # u = GetInfo(api_key)
     # print(u.get_projects_name())
     # print(u.get_json_task_response())
