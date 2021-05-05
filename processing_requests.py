@@ -29,12 +29,12 @@ class GetJsonData:
         return json_response_projects
 
     def get_json_task_response(self, project_id=None):
+        """process request: GET /workspaces/{workspaceId}/projects/{projectId}/tasks"""
         if project_id is None:
             try:
                 project_id = self.get_json_project_response()[0]['id']
             except IndexError:
                 raise Exception("you don't have any projects yet")
-        """process request: GET /workspaces/{workspaceId}/projects/{projectId}/tasks"""
         api_url = self.URL + self.API_TASK_URL(project_id)
         response = requests.get(api_url, headers=self.headers)
         json_response_tasks = response.json()
