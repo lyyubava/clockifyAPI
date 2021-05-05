@@ -4,7 +4,7 @@ import requests
 
 
 class GetJsonData:
-    def __init__(self,X_API_KEY ):
+    def __init__(self, X_API_KEY):
         self.__api_key = X_API_KEY
         self.headers = {'content-type': 'application/json', 'X-Api-Key': self.__api_key}
         self.URL_BASE = 'https://api.clockify.me/api/v1/user'
@@ -19,20 +19,32 @@ class GetJsonData:
         self.user_name = self.json_response_base['name']
         # we assume that we analyze one active workspace, but there could be many different tasks on different projects
         self.API_TASK_URL = lambda project_id: f'/workspaces/{self.workspace_id}/projects/{project_id}/tasks'
+        self.USER_ID = self.json_response_base['id']
 
     def get_json_project_response(self):
-        """process request: GET /workspaces/{workspaceId}/projects """
+        """process request: GET /workspaces/{workspaceId}/projects"""
         api_url = self.URL + self.API_PROJECT_URL
         response = requests.get(api_url, headers=self.headers)
         json_response_projects = response.json()
         return json_response_projects
 
-    def get_json_task_response(self, project_id):
+    def get_json_task_response(self, project_id=None):
+        if project_id is None:
+            try:
+                project_id = self.get_json_project_response()[0]['id']
+            except IndexError:
+                raise Exception("you don't have any projects yet")
         """process request: GET /workspaces/{workspaceId}/projects/{projectId}/tasks"""
         api_url = self.URL + self.API_TASK_URL(project_id)
         response = requests.get(api_url, headers=self.headers)
         json_response_tasks = response.json()
         return json_response_tasks
+
+    def get_time(self):
+        """GET /workspaces/{workspaceId}/user/{userId}/time-entries"""
+        api_url_time = '/workspaces/{workspaceId}/user/{userId}/time-entries'.format(workspaceId=self.workspace_id,
+                                                                                     userId=self.USER_ID)
+        return requests.get(self.URL + api_url_time, headers=self.headers).json()
 
 
 class GetInfo(GetJsonData):
@@ -44,7 +56,7 @@ class GetInfo(GetJsonData):
     def get_projects_id(self):
         return [project['id'] for project in GetJsonData.get_json_project_response(self)]
 
-    def get_task_name(self, project_id=None):
+    def get_tasks_name(self, project_id=None):
         """ returns list of tasks for specific project"""
         # by default process task_list for first project
         if project_id is None:
@@ -63,8 +75,12 @@ class GetInfo(GetJsonData):
 if __name__ == '__main__':
     api_key = configuration.Configuration.X_API_KEY
     my_user = GetJsonData(api_key)
-    print(my_user.json_response_base)
-    print(my_user.get_json_project_response())
-    u = GetInfo(api_key)
-    print(u.get_projects_name())
-    print(u.get_task_name())
+    # print(my_user.json_response_base)
+    # print(my_user.get_json_project_response())
+    # u = GetInfo(api_key)
+    # print(u.get_projects_name())
+    # print(u.get_json_task_response())
+    # print(u.get_tasks_name())
+    # print("------------")
+    # print(u.get_json_task_response())
+    # print(u.get_time())
