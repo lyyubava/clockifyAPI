@@ -1,6 +1,8 @@
 from processing_requests import GetJsonData, GetInfo
 import pandas as pd
 import configuration
+import re
+from typing import List
 
 """Розширити функціонал програми, щоб вона формувала на stdout загальний звіт (в т.ч. час потрачений на кожну задачу) 
 по задачах, і по загальному часу потраченому на кожну з задач по груповані по датах. """
@@ -15,11 +17,13 @@ class Analyzes(GetInfo):
 
         return df
 
+    @staticmethod
+    def convert_duration(time: str) -> List:
+        """converts time iso8601 format eg PT12S, PT20M26S, PT15S"""
+        result = re.findall('(\d+\D)', time)
+        return result
+
 
 if __name__ == '__main__':
     api_key = configuration.Configuration.X_API_KEY
     u = Analyzes(api_key)
-    print(u.generate_df_for_task())
-    df = u.generate_df_for_task()
-    s = pd.DataFrame(df).groupby
-    print(s)
