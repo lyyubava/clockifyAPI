@@ -67,7 +67,7 @@ class Analyzes(GetInfo):
         df = self.grouped_by_time()
         df = {'Task': [i for i in df.keys()], 'Duration': [j for j in df.values()]}
         df = pd.DataFrame(df)
-        return df
+        print(df)
 
 
 if __name__ == '__main__':
