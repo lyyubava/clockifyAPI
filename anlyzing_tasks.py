@@ -73,19 +73,3 @@ class Analyzes(GetInfo):
 if __name__ == '__main__':
     api_key = configuration.Configuration.X_API_KEY
     u = Analyzes(api_key)
-    print(u.show())
-    # print(u.generate_df_for_task())
-    # arr = ['3H', '2M', '2S']
-    # print(u.grouped_by())
-    print(u.show1())
-    # t1 = datetime.datetime(2,59,  59, '%H:%M:%S')
-    # print(t1)
-    # t1 = datetime.datetime.strptime(, '%H:%M:%S')
-    # t2 = datetime.datetime.strptime('02:59:59', '%H:%M:%S')
-    # print(t2.time())
-    # time_zero = datetime.datetime.strptime('00:00:00', '%H:%M:%S')
-    # print((t1 - time_zero + t2).time())
-    # t1 = datetime.datetime.strptime('08:09:59', '%H:%M:%S')
-    # t2 = datetime.datetime.strptime('02:59:59', '%H:%M:%S')
-    # time_zero = datetime.datetime.strptime('00:00:00', '%H:%M:%S')
-    # print((t1 - time_zero + t2))
