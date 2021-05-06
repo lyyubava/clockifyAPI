@@ -67,25 +67,9 @@ class GetInfo(GetJsonData):
 
         return [task['name'] for task in GetJsonData.get_json_task_response(self, project_id=project_id)]
 
-    def get_info_about_tasks(self):
-        """ return dict: key:project name, value: list of tasks for this project"""
-        pass
-
 
 if __name__ == '__main__':
     api_key = configuration.Configuration.X_API_KEY
     my_user = GetJsonData(api_key)
-    # print(my_user.json_response_base)
-    # print(my_user.get_json_project_response())
-    # print(my_user.get_json_task_response())
-    # print(my_user.get_time())
     u = GetInfo(api_key)
     print(u.get_tasks_name())
-    print(u.get_time_entries())
-    # u = GetInfo(api_key)
-    # print(u.get_projects_name())
-    # print(u.get_json_task_response())
-    # print(u.get_tasks_name())
-    # print("------------")
-    # print(u.get_json_task_response())
-    # print(u.get_time())
